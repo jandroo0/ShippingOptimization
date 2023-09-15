@@ -4,14 +4,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Product {
-    String name;
-    double length, width, height, weight;
-    double volume;
-    boolean isHazardous;
+    private String name;
+    private double length, width, height, weight;
+    private double volume;
+    private boolean isHazardous;
 
 
     // handling instructions as a map
-    Map<String, String> handlingInstructions;
+    private Map<String, String> handlingInstructions;
 
     public Product(String name, double length, double height, double width, boolean isHazardous) {
         this.name = name;
