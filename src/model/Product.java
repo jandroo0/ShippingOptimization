@@ -3,30 +3,34 @@ package model;
 import java.util.HashMap;
 import java.util.Map;
 
+
 public class Product {
     private String name;
-    private double length, width, height, weight;
+    private double depth, width, height, weight;
 
     private double count;
     private double volume;
     private boolean isHazardous;
+    private boolean isFragile;
+
 
 
     // handling instructions as a map
     private Map<String, String> handlingInstructions;
 
-    public Product(String name, double width, double length, double height, double count, double weight, boolean isHazardous) {
+    public Product(String name, double width, double depth, double height, double count, double weight, boolean isHazardous, boolean isFragile) {
         this.name = name;
-        this.length = length;
+        this.depth = depth;
         this.height = height;
         this.width = width;
-        this.volume = length * height * width;
+        this.volume = depth * height * width;
 
         this.weight = weight;
 
         this.count = count;
 
         this.isHazardous = isHazardous;
+        this.isFragile = isFragile;
 
         // create a map to store the instructions
         this.handlingInstructions = new HashMap<String, String>();
@@ -36,29 +40,26 @@ public class Product {
 
     public void rotate() {
         double temp = width;
-        width = length;
-        length = temp;
+        width = depth;
+        depth = temp;
     }
+
 
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public double getVolume() {
         return volume;
     }
 
-    public double getLength() {
-        return length;
+    public double getDepth() {
+        return depth;
     }
 
-    public void setLength(double length) {
-        this.length = length;
+    public void setDepth(double length) {
+        this.depth = length;
     }
 
     public double getWidth() {
@@ -95,6 +96,10 @@ public class Product {
 
     public boolean isHazardous() {
         return isHazardous;
+    }
+
+    public boolean isFragile() {
+        return isFragile;
     }
 
     public void setHazardous(boolean hazardous) {
