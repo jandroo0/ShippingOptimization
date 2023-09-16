@@ -39,11 +39,13 @@ public class MainFrame extends JFrame {
                 new Container("Storage Unit",20, 10, 8)}); // storage unit
 
         ArrayList<Product> products = new ArrayList<>();
-        for (int i = 0; i < 20; i++) {
-            products.add(new Product("Product " + i, 5, 4, 3, false));
-        }
+        products.add(new Product(43.7, 24.3, 43.4, 10.0, 100.0, false));
+        products.add(new Product(43.7, 24.3, 43.4, 10.0, 100.0, false));
+        products.add(new Product(43.7, 24.3, 43.4, 10.0, 100.0, false));
+        products.add(new Product(43.7, 24.3, 43.4, 10.0, 100.0, false));
+        products.add(new Product(43.7, 24.3, 43.4, 10.0, 100.0, false));
 
-        containerOptimization = new ContainerOptimization(new Container("Box Truck", 24, 8, 8), products);
+//        containerOptimization = new ContainerOptimization();
 
 
 

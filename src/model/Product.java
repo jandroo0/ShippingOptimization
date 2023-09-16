@@ -6,6 +6,8 @@ import java.util.Map;
 public class Product {
     private String name;
     private double length, width, height, weight;
+
+    private double count;
     private double volume;
     private boolean isHazardous;
 
@@ -13,12 +15,13 @@ public class Product {
     // handling instructions as a map
     private Map<String, String> handlingInstructions;
 
-    public Product(String name, double length, double height, double width, boolean isHazardous) {
-        this.name = name;
+    public Product(double width, double depth, double height, double count, double weight, boolean isHazardous) {
         this.length = length;
         this.height = height;
         this.width = width;
         this.volume = length * height * width;
+
+        this.count = count;
 
         this.weight = length * height * width;
         this.isHazardous = isHazardous;
@@ -29,13 +32,21 @@ public class Product {
     }
 
 
-    public String getName() {
-        return name;
+
+    public void rotate() {
+        double temp = width;
+        width = length;
+        length = temp;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+
+//    public String getName() {
+//        return name;
+//    }
+//
+//    public void setName(String name) {
+//        this.name = name;
+//    }
 
     public double getVolume() {
         return volume;
@@ -73,6 +84,14 @@ public class Product {
         this.weight = weight;
     }
 
+    public void setCount(double count) {
+        this.count = count;
+    }
+
+    public double getCount(){
+        return count;
+    }
+
     public boolean isHazardous() {
         return isHazardous;
     }
@@ -81,11 +100,19 @@ public class Product {
         isHazardous = hazardous;
     }
 
-    public String getHandlingInstructions(String key) {
-        return handlingInstructions.get(key);
+    public Map<String, String> getHandlingInstructions() {
+        return handlingInstructions;
+    }
+
+    public void setHandlingInstructions(Map<String, String> handlingInstructions) {
+        this.handlingInstructions = handlingInstructions;
     }
 
     public void addHandlingInstruction(String key, String value) {
         this.handlingInstructions.put(key, value);
+    }
+
+    public String getHandlingInstruction(String key) {
+        return handlingInstructions.get(key);
     }
 }

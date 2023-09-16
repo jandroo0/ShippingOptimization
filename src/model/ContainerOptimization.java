@@ -1,40 +1,103 @@
 package model;
 
+import javax.swing.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class ContainerOptimization {
 
-    public ContainerOptimization(Container container, ArrayList<Product> products) {
+    public ContainerOptimization(Container container, double maxWeightLbs,
+                                 List<Product> boxes) {
+        double wastedSpace = 0;
+        List<Product> placedBoxes = new ArrayList<>();
+        double currentWeight = 0;
 
+        // Convert container dimensions from feet to inches
+        double containerWidth = container.getWidth();
+        double containerDepth = container.getLength();
+        double containerHeight = container.getHeight();
+        double maxWeight = maxWeightLbs;
 
-        // Create a slice with dimensions (8, 6, 5)
-        for (Slice slice : container.getSlices()) {
+        // Sort boxes by surface area (descending)
+        Collections.sort(boxes, (box1, box2) -> (int) (box2.getWidth() * box2.getLength() - box1.getWidth() * box1.getLength()));
 
-            // Apply peak filling
-            slice.peakFill(products);
+        for (Product box : boxes) {
+            while (box.getCount() > 0) {
 
-            // Reduce from 3D to 2D
-            slice.reduceFrom3DTo2D();
+                boolean placed = false;
+                for (int i = 0; i < placedBoxes.size(); i++) {
+                    Product placedBox = placedBoxes.get(i);
 
-            // Divide the slice into sub-slices
-            List<Slice> subSlices = slice.divide();
+                    if (placedBox.getWidth() >= box.getWidth() && placedBox.getLength() >= box.getLength() &&
+                            currentWeight + box.getWeight() <= maxWeight) {
 
-            // Fill sub-slices with boxes
-            for (Slice subSlice : subSlices) {
-                subSlice.fillWithBoxes(products);
-            }
+                        // Check if box is hazardous
+                        if (box.isHazardous()) {
+                            // Special handling for hazardous materials
+                            if (placedBox.isHazardous()) {
+                                // If the current placement is also hazardous, continue to the next placement
+                                continue;
+                            }
+                            // Find the next non-hazardous placement
+                            while (i < placedBoxes.size() && placedBoxes.get(i).isHazardous()) {
+                                i++;
+                            }
+                            if (i >= placedBoxes.size()) {
+                                // No non-hazardous placements left, add a new layer
+                                placedBox.setWidth(containerWidth);
+                                placedBox.setLength(containerDepth);
+                                placedBox.setHeight(placedBox.getHeight() + box.getHeight());
+                            } else {
+                                placedBox = placedBoxes.get(i);
+                                placedBox.setWidth(placedBox.getWidth() - box.getWidth());
+                                placedBox.setLength(placedBox.getLength() - box.getLength());
+                                placedBox.setHeight(placedBox.getHeight() + box.getHeight());
+                            }
+                        } else {
+                            // Follow normal placement logic
+                            placedBox.setWidth(placedBox.getWidth() - box.getWidth());
+                            placedBox.setLength(placedBox.getLength() - box.getLength());
+                            placedBox.setHeight(placedBox.getHeight() + box.getHeight());
+                        }
 
-            // Push slices together
-            for (int i = 1; i < subSlices.size(); i++) {
-                subSlices.get(0).push(subSlices.get(i));
-            }
+                        // Check handling instructions
+                        for (String key : box.getHandlingInstructions().keySet()) {
+                            String value = box.getHandlingInstructions().get(key);
+                            // Implement checks based on handling instructions
+                            if (key.equals("orientation") && value.equals("upright")) {
+                                if (box.getLength() > box.getWidth()) {
+                                    box.rotate();
+                                }
+                            }
+                            // Add more handling instructions checks as needed
+                        }
 
-            // Output the final filled boxes in the slice
-            System.out.println("Final Filled Boxes in the Slice:");
-            for (Product filledBox : subSlices.get(0).filledBoxes) {
-                System.out.println("Width: " + filledBox.getWidth() + ", Length: " + filledBox.getLength() + ", Height: " + filledBox.getHeight());
+                        currentWeight += box.getWeight();
+                        placed = true;
+                        break;
+                    }
+                }
+
+                if (!placed) {
+                    if (box.getWidth() <= containerWidth && box.getLength() <= containerDepth &&
+                            currentWeight + box.getWeight() <= maxWeight) {
+                        placedBoxes.add(new Product(containerWidth, containerDepth, box.getHeight(), 1, box.getHeight(), box.isHazardous()));
+                        currentWeight += box.getWeight();
+                    } else {
+                        wastedSpace += box.getVolume();
+                    }
+                    box.setCount(box.getCount() + 1);
+                }
             }
         }
+
+        double usedSpace = containerWidth * containerDepth * containerHeight - wastedSpace;
+
+        // divide by 1728 ---- in^3 --> ft^3
+        System.out.println("Container Volume: " + String.format("%.2f", (containerWidth * containerDepth * containerHeight) / 1728));
+        System.out.println("Used Space: " + String.format("%.2f", usedSpace / 1728));
+        System.out.println("Wasted Space: " + String.format("%.2f", wastedSpace / 1728));
+
     }
 }
