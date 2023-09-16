@@ -7,18 +7,32 @@ import java.util.List;
 
 public class ContainerOptimization {
 
-    public ContainerOptimization(Container container, double maxWeightLbs,
-                                 List<Product> boxes) {
-        double wastedSpace = 0;
-        List<Product> placedBoxes = new ArrayList<>();
-        double currentWeight = 0;
+    private double wastedSpace;
+    private List<Product> placedBoxes;
+    private double currentWeight;
+
+    public ContainerOptimization(Container container, List<Product> boxes) {
+
+
+//        results()
+
+
+    }
+
+
+    public String results(Container container, List<Product> boxes) {
+        wastedSpace = 0;
+        placedBoxes = new ArrayList<>();
+        currentWeight = 0;
 
         // Convert container dimensions from feet to inches
         double containerWidth = container.getWidth();
         double containerDepth = container.getLength();
         double containerHeight = container.getHeight();
-        double maxWeight = maxWeightLbs;
+        double maxWeight = container.getMaxWeight();
 
+        // some containers do not have a max weight
+        if (maxWeight == 0) maxWeight = Double.MAX_VALUE; // set max weight to infinite
         // Sort boxes by surface area (descending)
         Collections.sort(boxes, (box1, box2) -> (int) (box2.getWidth() * box2.getLength() - box1.getWidth() * box1.getLength()));
 
@@ -82,7 +96,7 @@ public class ContainerOptimization {
                 if (!placed) {
                     if (box.getWidth() <= containerWidth && box.getLength() <= containerDepth &&
                             currentWeight + box.getWeight() <= maxWeight) {
-                        placedBoxes.add(new Product(containerWidth, containerDepth, box.getHeight(), 1, box.getHeight(), box.isHazardous()));
+                        placedBoxes.add(new Product(box.getName(), containerWidth, box.getLength(), box.getHeight(), 1, box.getWeight(), box.isHazardous()));
                         currentWeight += box.getWeight();
                     } else {
                         wastedSpace += box.getVolume();
@@ -92,12 +106,17 @@ public class ContainerOptimization {
             }
         }
 
+
         double usedSpace = containerWidth * containerDepth * containerHeight - wastedSpace;
 
-        // divide by 1728 ---- in^3 --> ft^3
-        System.out.println("Container Volume: " + String.format("%.2f", (containerWidth * containerDepth * containerHeight) / 1728));
-        System.out.println("Used Space: " + String.format("%.2f", usedSpace / 1728));
-        System.out.println("Wasted Space: " + String.format("%.2f", wastedSpace / 1728));
+        StringBuilder results = new StringBuilder();
 
+        // divide by 1728 ---- in^3 --> ft^3
+
+        results.append("Container Volume: " + String.format("%.2f", (containerWidth * containerDepth * containerHeight) / 1728));
+        results.append("\nUsed Space: " + String.format("%.2f", usedSpace / 1728));
+        results.append("\nWasted Space: " + String.format("%.2f", wastedSpace / 1728));
+
+        return results.toString();
     }
 }

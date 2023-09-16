@@ -77,14 +77,6 @@ public class MenuCustomList extends JPanel {
         return null;
     }
 
-    public void setList(LinkedList<Product> items) {
-        DefaultListModel<Product> model = (DefaultListModel<Product>) list.getModel();
-        model.removeAllElements();
-        for (Product item : items) {
-            model.addElement(item);
-        }
-    }
-
     public LinkedList<Product> getList() {
         DefaultListModel<Product> model = (DefaultListModel<Product>) list.getModel();
         LinkedList<Product> items = new LinkedList<>();
@@ -92,6 +84,14 @@ public class MenuCustomList extends JPanel {
             items.add(model.getElementAt(i));
         }
         return items;
+    }
+
+    public void setList(LinkedList<Product> items) {
+        DefaultListModel<Product> model = (DefaultListModel<Product>) list.getModel();
+        model.removeAllElements();
+        for (Product item : items) {
+            model.addElement(item);
+        }
     }
 
     public void removeSelectedItem() {
@@ -115,12 +115,9 @@ public class MenuCustomList extends JPanel {
 
             if (value instanceof Product) {
                 Product Product = (Product) value;
-                    int count = itemCounter.get(Product);
-                    setText(Product.getName() + count);
-            }
-
-            if (alignCenter) {
+                setText(Product.getName() + " x" + Product.getCount());
                 setHorizontalAlignment(SwingConstants.CENTER);
+
             }
 
             return c;

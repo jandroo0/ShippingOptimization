@@ -1,11 +1,16 @@
 package gui;
 
 import config.Configuration;
+import listener.FormListener;
 import model.Container;
+import model.Product;
+import tools.MenuCustomList;
 import tools.PlaceholderTextField;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 
 public class ContentPanel extends JPanel {
@@ -21,15 +26,29 @@ public class ContentPanel extends JPanel {
     private PlaceholderTextField productNameField; // product name text field
     private PlaceholderTextField amountField; // amount text field
 
+    // hazardous checkbox
+    private JCheckBox isHazardousBox;
+
+
     // dimension placeholder text fields
-    private PlaceholderTextField length, width, height, weight;
+    private PlaceholderTextField lengthField, widthField, heightField, weightField;
 
     private JButton addButton; // run button
+
+    private MenuCustomList currentItemsList;
+
+    private JButton runButton;
 
 
     private static Container[] defaultContainers;
 
+
+    private FormListener formListener;
+
     public ContentPanel() {
+
+        formPanel = new JPanel();
+        currentItemsPanel = new JPanel();
 
         // default containers
         defaultContainers = new Container[] {}; // storage unit
@@ -48,54 +67,115 @@ public class ContentPanel extends JPanel {
 
         amountField = new PlaceholderTextField("AMOUNT", 90,28,18); // amount text field
 
-        // dimension placeholder text fields
-        length = new PlaceholderTextField("Length", 90, 28, 18);
-        width = new PlaceholderTextField("Width", 90, 28, 18);
-        height = new PlaceholderTextField("Height", 90, 28, 18);
-        weight = new PlaceholderTextField("Weight", 90, 28, 18);
+        isHazardousBox = new JCheckBox("Hazard");
 
-        addButton = new JButton("ADD"); // run button
+        // dimension placeholder text fields
+        lengthField = new PlaceholderTextField("Length", 90, 28, 18);
+        widthField = new PlaceholderTextField("Width", 90, 28, 18);
+        heightField = new PlaceholderTextField("Height", 90, 28, 18);
+        weightField = new PlaceholderTextField("Weight", 90, 28, 18);
+
+        addButton = new JButton("ADD"); // add button
+        runButton = new JButton("RUN"); // run button
+
+        currentItemsList = new MenuCustomList(18, new Dimension(150,200));
+
+
+        addButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String productName = productNameField.getText();
+                double amount = Double.parseDouble(amountField.getText());
+
+                double length = Double.parseDouble(lengthField.getText());
+                double width = Double.parseDouble(lengthField.getText());
+                double height = Double.parseDouble(lengthField.getText());
+                double weight = Double.parseDouble(lengthField.getText());
+
+                boolean isHazardous = isHazardousBox.isSelected();
+
+                formListener.addProductsEvent(new Product(productName, width, length, height, amount, weight, isHazardous));
+
+            }
+        });
+
+        runButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Container container = (Container) containerTypeBox.getSelectedItem();
+                formListener.runContainerOptimizationEvent(container, currentItemsList.getList());
+            }
+        });
 
 
         layoutComponents();
         styling();
     }
 
+    public void addProduct(Product product) {
+        currentItemsList.addItem(product);
+    }
+
+    public void setFormListener(FormListener listener) {
+        this.formListener = listener;
+    }
+
     private void layoutComponents() {
-        setLayout(new GridBagLayout());
-        setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+
+        // form panel
+
+        formPanel.setLayout(new GridBagLayout());
+        formPanel.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 20));
 
         GridBagConstraints gc = new GridBagConstraints();
         gc.gridx = 0;
         gc.gridy = 0;
 
         gc.insets = new Insets(0,0,10,0);
-        add(containerTypeLabel, gc);
+        formPanel.add(containerTypeLabel, gc);
         gc.gridy++;
         gc.insets = new Insets(0,0,20,0);
-        add(containerTypeBox, gc);
+        formPanel.add(containerTypeBox, gc);
 
         gc.gridy++;
         gc.insets = new Insets(0,0,5,0);
-        add(productNameField, gc);
+        formPanel.add(productNameField, gc);
         gc.gridy++;
         gc.insets = new Insets(0,0,20,0);
-        add(amountField, gc);
+        formPanel.add(amountField, gc);
 
         gc.insets = new Insets(0,0,5,0);
         gc.gridy++;
-        add(length, gc);
+        formPanel.add(lengthField, gc);
         gc.gridy++;
-        add(width, gc);
+        formPanel.add(widthField, gc);
         gc.gridy++;
-        add(height, gc);
+        formPanel.add(heightField, gc);
         gc.gridy++;
         gc.insets = new Insets(0,0,20,0);
-        add(weight, gc);
+        formPanel.add(weightField, gc);
 
 
         gc.gridy++;
-        add(addButton, gc);
+        formPanel.add(addButton, gc);
+
+
+        // current items panel
+        currentItemsPanel.setLayout(new GridBagLayout());
+        currentItemsPanel.setBorder(BorderFactory.createEmptyBorder(0,40,0,20));
+        gc.gridx =  0;
+        gc.gridy = 0;
+        gc.insets = new Insets(0,0,10,0);
+        currentItemsPanel.add(currentItemsList, gc);
+        gc.gridy++;
+        currentItemsPanel.add(runButton, gc);
+
+
+        setLayout(new BorderLayout());
+        setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(0,0,10,0),
+                BorderFactory.createMatteBorder(0,0,0,2, Color.BLACK)));
+        add(formPanel, BorderLayout.WEST);
+        add(currentItemsPanel, BorderLayout.EAST);
 
     }
 

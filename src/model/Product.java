@@ -15,22 +15,23 @@ public class Product {
     // handling instructions as a map
     private Map<String, String> handlingInstructions;
 
-    public Product(double width, double depth, double height, double count, double weight, boolean isHazardous) {
+    public Product(String name, double width, double length, double height, double count, double weight, boolean isHazardous) {
+        this.name = name;
         this.length = length;
         this.height = height;
         this.width = width;
         this.volume = length * height * width;
 
+        this.weight = weight;
+
         this.count = count;
 
-        this.weight = length * height * width;
         this.isHazardous = isHazardous;
 
         // create a map to store the instructions
         this.handlingInstructions = new HashMap<String, String>();
 
     }
-
 
 
     public void rotate() {
@@ -40,13 +41,13 @@ public class Product {
     }
 
 
-//    public String getName() {
-//        return name;
-//    }
-//
-//    public void setName(String name) {
-//        this.name = name;
-//    }
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public double getVolume() {
         return volume;

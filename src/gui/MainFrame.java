@@ -1,9 +1,11 @@
 package gui;
 
 import config.Configuration;
+import listener.FormListener;
 import model.Container;
 import model.ContainerOptimization;
 import model.Product;
+import controller.Controller;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,8 +16,10 @@ public class MainFrame extends JFrame {
 
     private TitlePanel titlePanel;
     private ContentPanel contentPanel;
+    private ResultsPanel resultsPanel;
 
-    ContainerOptimization containerOptimization;
+    private Controller controller;
+
 
     public MainFrame(){
         super("EZSHIPPING"); // set title
@@ -32,6 +36,11 @@ public class MainFrame extends JFrame {
         // content panel
         contentPanel = new ContentPanel();
 
+        // results panel
+        resultsPanel = new ResultsPanel();
+
+        controller = new Controller();
+
         // set default containers
         contentPanel.setDefaultContainers(new Container[]{
                 new Container("Box Truck", 24, 8, 8), // box truck
@@ -39,20 +48,33 @@ public class MainFrame extends JFrame {
                 new Container("Storage Unit",20, 10, 8)}); // storage unit
 
         ArrayList<Product> products = new ArrayList<>();
-        products.add(new Product(43.7, 24.3, 43.4, 10.0, 100.0, false));
-        products.add(new Product(43.7, 24.3, 43.4, 10.0, 100.0, false));
-        products.add(new Product(43.7, 24.3, 43.4, 10.0, 100.0, false));
-        products.add(new Product(43.7, 24.3, 43.4, 10.0, 100.0, false));
-        products.add(new Product(43.7, 24.3, 43.4, 10.0, 100.0, false));
+        products.add(new Product("Brake Calipers",12, 6, 6, 100.0, 20, false));
+        products.add(new Product("Batteries",9, 5, 8, 100.0, 40.0, false));
+        products.add(new Product("Alternator",10, 6, 8, 100.0, 15.0, false));
+        products.add(new Product("Starter Motor",8, 6, 8, 100.0, 10.0, false));
+
 
 //        containerOptimization = new ContainerOptimization();
 
-
-
         setLayout(new BorderLayout()); // set layout
         add(titlePanel, BorderLayout.NORTH); // add title panel
-        add(contentPanel, BorderLayout.CENTER); // add content panel
+        add(contentPanel, BorderLayout.WEST); // add content panel
+        add(resultsPanel, BorderLayout.EAST); // add results panel
 
+
+        contentPanel.setFormListener(new FormListener() {
+            @Override
+            public void addProductsEvent(Product product) {
+                contentPanel.addProduct(product);
+            }
+
+            @Override
+            public void runContainerOptimizationEvent(Container container, LinkedList<Product> products) {
+                ContainerOptimization containerOptimization = new ContainerOptimization(container, products);
+            }
+
+
+        });
 
 
 
