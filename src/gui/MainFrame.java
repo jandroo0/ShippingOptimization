@@ -62,13 +62,32 @@ public class MainFrame extends JFrame {
 
 
         // test products
-        ArrayList<Product> products = new ArrayList<>();
-        products.add(new Product("Brake Calipers",12, 6, 6, 100.0, 20, false, false));
-        products.add(new Product("Batteries",9, 5, 8, 100.0, 40.0, false, false));
-        products.add(new Product("Alternator",10, 6, 8, 100.0, 15.0, false, false));
+        ArrayList<Product> products_1 = new ArrayList<>();
+        products_1.add(new Product("Brake Calipers",12, 6, 6, 100.0, 20, false, false));
+        products_1.add(new Product("Batteries",9, 5, 8, 100.0, 40.0, false, false));
+        products_1.add(new Product("Alternator",10, 6, 8, 100.0, 15.0, false, false));
+
+        ArrayList<Product> products_2 = new ArrayList<>();
+        products_2.add(new Product("Brake Calipers",12, 6, 6, 100.0, 20, false, false));
+        products_2.add(new Product("Batteries",9, 5, 8, 100.0, 40.0, false, false));
+        products_2.add(new Product("Alternator",10, 6, 8, 100.0, 15.0, false, false));
+
+        products_2.add(new Product("Brake Calipers",43.6, 24.3, 43.4, 10.0, 100.0, false, false));
+        products_2.add(new Product("Brake Calipers",50, 30, 20, 5.0, 30.0, false, false));
+        products_2.add(new Product("Brake Calipers",70, 10, 5, 15.0, 20.0, false, false));
+        products_2.add(new Product("Brake Calipers",10, 10, 10, 5.0, 5.0, false, false));
+        products_2.add(new Product("Brake Calipers",5, 2.5, 3, 20.0, 10.0, false, false));
+        products_2.add(new Product("Brake Calipers",30, 10, 40, 10.0, 200.0, false, false));
+        products_2.add(new Product("Brake Calipers",5, 5, 20, 5.0, 3.0, false, false));
+        products_2.add(new Product("Brake Calipers",80, 80, 10, 15.0, 102.0, false, false));
+        products_2.add(new Product("Brake Calipers",6, 10, 7, 4.0, 7.0, false, false));
+        products_2.add(new Product("Brake Calipers",60, 80, 80, 20.0, 50.0, false, false));
+
+
 
         // test run
-        containerOptimization(BOX_TRUCK.getWidth(), BOX_TRUCK.getDepth(), BOX_TRUCK.getHeight(), BOX_TRUCK.getMaxWeight(), products);
+        containerOptimization(BOX_TRUCK.getWidth(), BOX_TRUCK.getDepth(), BOX_TRUCK.getHeight(), BOX_TRUCK.getMaxWeight(), products_1);
+        containerOptimization(SHIP_CONTAINER.getWidth(), SHIP_CONTAINER.getDepth(), SHIP_CONTAINER.getHeight(), SHIP_CONTAINER.getMaxWeight(), products_2);
 
 
 
