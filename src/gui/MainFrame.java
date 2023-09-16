@@ -10,10 +10,8 @@ import controller.Controller;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.*;
 import java.util.List;
-import java.util.LinkedList;
 
 public class MainFrame extends JFrame {
 
@@ -63,7 +61,6 @@ public class MainFrame extends JFrame {
         contentPanel.setDefaultContainers(new Container[]{BOX_TRUCK, SHIP_CONTAINER_10, SHIP_CONTAINER_20, SHIP_CONTAINER, STORAGE_UNIT}); // storage unit
 
 
-
         // test products
         ArrayList<Product> products = new ArrayList<>();
         products.add(new Product("Brake Calipers",12, 6, 6, 100.0, 20, false, false));
@@ -74,7 +71,63 @@ public class MainFrame extends JFrame {
         containerOptimization(BOX_TRUCK.getWidth(), BOX_TRUCK.getDepth(), BOX_TRUCK.getHeight(), BOX_TRUCK.getMaxWeight(), products);
 
 
-//        containerOptimization = new ContainerOptimization();
+
+//        // test products
+//        Random rand = new Random();
+//
+//        ArrayList<Product> products_1 = new ArrayList<>();
+//        for (int i = 0; i < 10; i++) { // 10 different products
+//            int width = rand.nextInt(15) + 5; // random width between 5 and 20 inches
+//            int depth = rand.nextInt(15) + 5; // random depth between 5 and 20 inches
+//            int height = rand.nextInt(15) + 5; // random height between 5 and 20 inches
+//            double weight = rand.nextDouble(80) + 2; // random weight between 2 and 80 lbs
+//            double count = rand.nextDouble(150) + 25; // random count between 25 and 150
+//
+//            products_1.add(new Product("Product " + i, width, depth, height, count, weight, false, false));
+//        }
+//
+//        ArrayList<Product> products_2 = new ArrayList<>();
+//        for (int i = 0; i < 5; i++) { // 5 different products
+//            int width = rand.nextInt(15) + 5; // random width between 5 and 20 inches
+//            int depth = rand.nextInt(15) + 5; // random depth between 5 and 20 inches
+//            int height = rand.nextInt(15) + 5; // random height between 5 and 20 inches
+//            double weight = rand.nextDouble(110) + 2; // random weight between 5 and 100 lbs
+//            double count = rand.nextDouble(250) + 25; // random count between 25 and 250
+//
+//
+//            products_2.add(new Product("Product " + i, width, depth, height, count, weight, false, false));
+//        }
+//
+//        ArrayList<Product> products_3 = new ArrayList<>();
+//        for (int i = 0; i < 100; i++) { // 5 different products
+//            int width = rand.nextInt(30) + 5; // random width between 5 and 20 inches
+//            int depth = rand.nextInt(24) + 5; // random depth between 5 and 20 inches
+//            int height = rand.nextInt(20) + 5; // random height between 5 and 20 inches
+//            double weight = rand.nextDouble(250) + 2; // random weight between 5 and 100 lbs
+//            double count = rand.nextDouble(500) + 25; // random count between 25 and 500
+//
+//
+//            products_3.add(new Product("Product " + i, width, depth, height, count, weight, false, false));
+//        }
+//
+//
+//        // test runs
+//
+//        // BOX TRUCK
+//        System.out.println("BOX TRUCK");
+//        containerOptimization(BOX_TRUCK.getWidth(), BOX_TRUCK.getDepth(), BOX_TRUCK.getHeight(), BOX_TRUCK.getMaxWeight(), products_1);
+//        containerOptimization(BOX_TRUCK.getWidth(), BOX_TRUCK.getDepth(), BOX_TRUCK.getHeight(), BOX_TRUCK.getMaxWeight(), products_2);
+//        System.out.println("-------------------------------------------");
+//
+//        // SHIPPING CONTAINER 40 ft
+//        System.out.println("SHIPPING CONTAINER");
+//        containerOptimization(SHIP_CONTAINER.getWidth(), SHIP_CONTAINER.getDepth(), SHIP_CONTAINER.getHeight(), SHIP_CONTAINER.getMaxWeight(), products_1);
+//        containerOptimization(SHIP_CONTAINER.getWidth(), SHIP_CONTAINER.getDepth(), SHIP_CONTAINER.getHeight(), SHIP_CONTAINER.getMaxWeight(), products_2);
+//        System.out.println("-------------------------------------------");
+
+
+
+
 
         setLayout(new BorderLayout()); // set layout
         add(titlePanel, BorderLayout.NORTH); // add title panel
