@@ -1,7 +1,6 @@
 package listener;
 
 import model.Container;
-import model.ContainerOptimization;
 import model.Product;
 
 import java.util.EventListener;

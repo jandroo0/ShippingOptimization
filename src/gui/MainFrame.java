@@ -4,7 +4,6 @@ import config.Configuration;
 import listener.FormListener;
 import listener.ResultsPanelListener;
 import model.Container;
-import model.ContainerOptimization;
 import model.Product;
 import controller.Controller;
 
@@ -86,9 +85,16 @@ public class MainFrame extends JFrame {
 
 
         // test run
-        containerOptimization(BOX_TRUCK.getWidth(), BOX_TRUCK.getDepth(), BOX_TRUCK.getHeight(), BOX_TRUCK.getMaxWeight(), products_1);
-        containerOptimization(SHIP_CONTAINER.getWidth(), SHIP_CONTAINER.getDepth(), SHIP_CONTAINER.getHeight(), SHIP_CONTAINER.getMaxWeight(), products_2);
 
+        // BOX TRUCK
+        System.out.println("BOX TRUCK");
+        containerOptimization(BOX_TRUCK.getWidth(), BOX_TRUCK.getDepth(), BOX_TRUCK.getHeight(), BOX_TRUCK.getMaxWeight(), products_1);
+        System.out.println("-------------------------------------------");
+
+//         SHIPPING CONTAINER 40 ft
+        System.out.println("SHIPPING CONTAINER");
+        containerOptimization(SHIP_CONTAINER.getWidth(), SHIP_CONTAINER.getDepth(), SHIP_CONTAINER.getHeight(), SHIP_CONTAINER.getMaxWeight(), products_2);
+        System.out.println("-------------------------------------------");
 
 
 //        // test products
